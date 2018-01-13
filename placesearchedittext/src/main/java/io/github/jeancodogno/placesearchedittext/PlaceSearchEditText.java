@@ -24,7 +24,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
 
     private int INIT_SEARCH = 2;
     private final Context context;
-    private final static String key = "INPUT_YOUR_API_KEY";
+    private String key = "INPUT_YOUR_API_KEY";
 
     public PlaceSearchEditText(Context context) {
         super(context);
@@ -42,6 +42,11 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
         super(context, attrs, defStyleAttr);
         this.context = context;
         this.initialize();
+    }
+
+    public PlaceSearchEditText setApiKey(String key){
+        this.key = key;
+        return this;
     }
 
     public PlaceSearchEditText setInitSearch(int  init_search){
