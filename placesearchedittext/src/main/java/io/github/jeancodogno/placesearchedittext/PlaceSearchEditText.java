@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -35,7 +36,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
         this.context = context;
         this.initialize();
 
-        this.getApiKey();
+
     }
 
     public PlaceSearchEditText(Context context, AttributeSet attrs) {
@@ -56,6 +57,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
     }
 
     private void initialize() {
+        this.getApiKey();
         this.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -66,7 +68,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
 
                 if(charSequence.toString().length() > PlaceSearchEditText.this.INIT_SEARCH) {
-                    Log.e("ONTEXTCHANGED", "INSIDE");
+
                     new Thread() {
 
                         public void run() {
@@ -107,8 +109,6 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
                             }
                         }
                     }.start();
-                }else{
-                    Log.e("ONTEXTCHANGED", "NO INSIDE");
                 }
 
             }
@@ -146,13 +146,17 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
     }
 
 
-    public void getApiKey(){
-        ApplicationInfo appInfo = null;
-        try {
-            appInfo = this.context.getPackageManager().getApplicationInfo(this.context.getPackageName(), PackageManager.GET_META_DATA);
+    private void getApiKey(){
 
-            if (appInfo.metaData != null) {
-                this.key = appInfo.metaData.getString("com.google.android.geo.API_KEY");
+        try {
+
+            ApplicationInfo appInfo = this.context.getPackageManager().getApplicationInfo(this.context.getPackageName(),PackageManager.GET_META_DATA);
+            Bundle bundle = appInfo.metaData;
+
+            if (bundle != null) {
+                this.key = bundle.getString("com.google.android.geo.API_KEY");
+            }else{
+                Log.e(TAG, "API KEY not Found");
             }
 
         } catch (PackageManager.NameNotFoundException e) {
