@@ -3,6 +3,8 @@ package io.github.jeancodogno.placesearchedittext;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -23,14 +25,17 @@ import java.util.ArrayList;
 
 public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView{
 
+    private static final String TAG = PlaceSearchEditText.class.getName();
     private int INIT_SEARCH = 2;
     private final Context context;
     private String key = "INPUT_YOUR_API_KEY";
 
-    public PlaceSearchEditText(Context context) {
+    public PlaceSearchEditText(Context context){
         super(context);
         this.context = context;
         this.initialize();
+
+        this.getApiKey();
     }
 
     public PlaceSearchEditText(Context context, AttributeSet attrs) {
@@ -43,11 +48,6 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
         super(context, attrs, defStyleAttr);
         this.context = context;
         this.initialize();
-    }
-
-    public PlaceSearchEditText setApiKey(String key){
-        this.key = key;
-        return this;
     }
 
     public PlaceSearchEditText setInitSearch(int  init_search){
@@ -146,4 +146,18 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
     }
 
 
+    public void getApiKey(){
+        ApplicationInfo appInfo = null;
+        try {
+            appInfo = this.context.getPackageManager().getApplicationInfo(this.context.getPackageName(), PackageManager.GET_META_DATA);
+
+            if (appInfo.metaData != null) {
+                this.key = appInfo.metaData.getString("com.google.android.geo.API_KEY");
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "API KEY not Found");
+        }
+
+    }
 }
