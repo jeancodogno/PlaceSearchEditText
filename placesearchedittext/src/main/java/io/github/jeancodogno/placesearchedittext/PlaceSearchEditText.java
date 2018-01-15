@@ -7,9 +7,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +60,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
 
     private void initialize() {
         this.getApiKey();
+        this.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         this.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -96,7 +99,8 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
                                 ((Activity) PlaceSearchEditText.this.context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        PlaceSearchEditText.this.setAdapter(new PlaceAdapter(PlaceSearchEditText.this.context, R.layout.places_list, R.id.text_place, resultList));
+                                        int[] textIds = new int[]{R.id.text_place, R.id.text_place2};
+                                        PlaceSearchEditText.this.setAdapter(new PlaceAdapter(PlaceSearchEditText.this.context, R.layout.places_list, textIds , resultList));
                                         PlaceSearchEditText.this.setTokenizer(new CommaTokenizer());
                                         PlaceSearchEditText.this.setThreshold(1);
                                     }

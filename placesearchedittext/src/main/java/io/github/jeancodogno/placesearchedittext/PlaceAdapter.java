@@ -15,12 +15,12 @@ import java.util.List;
 public class PlaceAdapter extends ArrayAdapter<String> {
 
     private final Context context;
-    private final int textViewResourceId;
+    private final int[] textViewResourceId;
     private final int resource;
     private ArrayList<String> items;
 
-    public PlaceAdapter(Context context, int resource,  int textViewResourceId, ArrayList<String> items) {
-        super(context, resource, textViewResourceId, items);
+    public PlaceAdapter(Context context, int resource,  int[] textViewResourceId, ArrayList<String> items) {
+        super(context, resource, textViewResourceId[0], items);
         this.textViewResourceId = textViewResourceId;
         this.context = context;
         this.resource = resource;
@@ -36,9 +36,13 @@ public class PlaceAdapter extends ArrayAdapter<String> {
         }
         String location = this.items.get(position);
         if (location != null) {
-            TextView lblName = (TextView) view.findViewById(this.textViewResourceId);
-            if (lblName != null)
-                lblName.setText(location, TextView.BufferType.EDITABLE);
+            TextView lblName = (TextView) view.findViewById(this.textViewResourceId[0]);
+            TextView lblName2 = (TextView) view.findViewById(this.textViewResourceId[1]);
+            String[] locationSplit = new String[0];
+            if (lblName != null && lblName2 != null)
+                locationSplit = location.split(", ");
+                lblName.setText(locationSplit[0], TextView.BufferType.EDITABLE);
+                lblName2.setText(locationSplit[1]+", "+locationSplit[2], TextView.BufferType.EDITABLE);
         }
 
         return view;

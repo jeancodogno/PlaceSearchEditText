@@ -12,5 +12,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.place_search = (PlaceSearchEditText) findViewById(R.id.place_search);
+
     }
 }
