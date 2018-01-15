@@ -5,9 +5,13 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    private PlaceSearchEditText place_search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.place_search = (PlaceSearchEditText) findViewById(R.id.place_search);
+        this.place_search.setApiKey("INPUT_YOUR_API_KEY");
     }
 }

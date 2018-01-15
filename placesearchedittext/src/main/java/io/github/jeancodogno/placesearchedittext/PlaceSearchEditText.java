@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +65,8 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
             @Override
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
 
-                if(charSequence.toString().length()>PlaceSearchEditText.this.INIT_SEARCH) {
+                if(charSequence.toString().length() > PlaceSearchEditText.this.INIT_SEARCH) {
+                    Log.e("ONTEXTCHANGED", "INSIDE");
                     new Thread() {
 
                         public void run() {
@@ -75,7 +77,7 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
-
+                            Log.e("URL", url);
                             JSONObject jsonObj = null;
                             try {
 
@@ -105,6 +107,8 @@ public class PlaceSearchEditText extends android.support.v7.widget.AppCompatMult
                             }
                         }
                     }.start();
+                }else{
+                    Log.e("ONTEXTCHANGED", "NO INSIDE");
                 }
 
             }
